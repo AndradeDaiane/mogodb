@@ -1,48 +1,31 @@
 package com.example.mogodb.model;
 
-import org.springframework.data.annotation.Id; // Importa a anotação para ID no MongoDB.
-import org.springframework.data.mongodb.core.mapping.Document; // Importa a anotação para documentos MongoDB.
+// Importações necessárias para o mapeamento e funcionamento da entidade JPA.
+import org.springframework.boot.autoconfigure.domain.EntityScan; // Configura o escaneamento de entidades.
+import jakarta.persistence.Entity; // Marca a classe como uma entidade JPA.
+import jakarta.persistence.GeneratedValue; // Gera valores automaticamente para campos.
+import jakarta.persistence.GenerationType; // Define a estratégia de geração de valores.
+import jakarta.persistence.Id; // Marca o campo como chave primária.
+import lombok.AllArgsConstructor; // Gera automaticamente um construtor com todos os campos.
+import lombok.Data; // Gera automaticamente getters, setters, equals, hashCode e toString.
 
-@Document(collection = "produtos") // Indica que esta classe é um documento MongoDB.
+// Configura o escaneamento de entidades no pacote especificado.
+@EntityScan("com.example.mogodb.model")
+
+// Marca a classe como uma entidade JPA, permitindo que ela seja mapeada para uma tabela no banco de dados.
+@Entity
+// Gera automaticamente métodos como getters, setters, equals, hashCode e toString.
+@Data
+// Gera automaticamente um construtor que aceita todos os campos como parâmetros.
+@AllArgsConstructor
 public class Produto {
 
-    @Id // Define o campo "id" como identificador único.
-    private String id; // Alterado para String, pois o MongoDB usa ObjectId como padrão.
-    private String name; // Nome do registro.
-    private String description; // Descrição do registro.
+    // Marca o campo "id" como chave primária da tabela.
+    @Id
+    // Configura a geração automática de valores para o campo "id" usando a estratégia de identidade.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Identificador único do produto.
 
-    public Produto() {
-        // Construtor padrão necessário para o MongoDB.
-    }
-
-    public Produto(String name, String description) {
-        // Construtor para inicializar os campos.
-        this.name = name;
-        this.description = description;
-    }
-
-    // Métodos getters e setters para acessar e modificar os campos.
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    private String name; // Nome do produto.
+    private String description; // Descrição do produto.
 }
